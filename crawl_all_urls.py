@@ -71,6 +71,8 @@ def crawl_url(url, location, category):
             text = response.text
             page = BeautifulSoup(text, 'html.parser')
             links = page.find_all('a', {'class': 'doc-name'})
+            if not links:
+                return False
             for link in links:
                 collection.save({
                     '_id': link['href'],
@@ -94,7 +96,7 @@ def main():
                 print 'Main url: %s' % url
                 for page_num in range(1, 1000000):
                     c_url = url % (loc, page_num)
-                    print 'Crawling url: %s' % c_url
+                    print '***Crawling url***: %s' % c_url
                     if not crawl_url(c_url, loc, category):
                         break
 
