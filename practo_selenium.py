@@ -27,7 +27,7 @@ class PractoCrawl():
                     'https://www.practo.com/bangalore/neurologist?filters[min_fee]=0&filters[max_fee]=1500&page=1',
                     'https://www.practo.com/bangalore/urologist?filters[min_fee]=0&filters[max_fee]=1500&page=1']
 
-        for url in index_urls[:1]:
+        for url in index_urls:
             self.crawl_url(url, re.search('bangalore/(.+)\?', url).group(1))
 
     def crawl_url(self, input_url, subject):
