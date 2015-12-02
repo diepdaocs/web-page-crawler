@@ -2,6 +2,7 @@ import requests
 from pymongo import MongoClient
 from bs4 import BeautifulSoup
 from collections import OrderedDict
+import time
 
 locations = ['bangalore', 'delhi', 'kolkata', 'pune', 'chennai', 'hyderabad', 'mumbai', 'agra', 'ahmedabad',
              'allahabad', 'aurangabad', 'bhopal', 'chandigarh', 'coimbatore', 'ernakulam', 'faridabad', 'ghaziabad',
@@ -99,6 +100,8 @@ def main():
                     print '***Crawling url***: %s' % c_url
                     if not crawl_url(c_url, loc, category):
                         break
+                    # avoid from blocking
+                    time.sleep(10)
 
     return
 
