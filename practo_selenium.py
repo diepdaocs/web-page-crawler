@@ -2,7 +2,7 @@ __author__ = 'sunary'
 
 
 from selenium import webdriver
-# from utils.my_mongo import Mongodb
+from utils.my_mongo import Mongodb
 import re
 import time
 
@@ -11,7 +11,7 @@ class PractoCrawl():
 
     def __init__(self):
         self.driver = webdriver.Firefox()
-        # self.mongo = Mongodb(host='localhost', db='practo', col='url')
+        self.mongo = Mongodb(host='localhost', db='practo', col='url')
 
     def start(self):
         locations = ['bangalore', 'delhi', 'kolkata', 'pune', 'chennai', 'hyderabad', 'mumbai',
@@ -64,14 +64,13 @@ class PractoCrawl():
                 data = {'location': location,
                         'subject': subject,
                         'url': url_detail.group(1)}
-                # self.mongo.insert(data)
-                print data
+                self.mongo.insert(data)
 
         paginator = self.driver.find_element_by_xpath('//div[@class="paginator"]').get_attribute('innerHTML')
         if 'page_link page_link_next' in paginator:
             next_url = re.search('(.+=)[0-9]+$', input_url).group(1)
             next_url = next_url + str(int(input_url[len(next_url):]) + 1)
-            # self.crawl_url(next_url, location, subject)
+            self.crawl_url(next_url, location, subject)
 
     def close(self):
         self.driver.close()
