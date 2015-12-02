@@ -52,6 +52,9 @@ class Mongodb:
     def insert(self, docs, **kwargs):
         return self.collection.insert(doc_or_docs=docs, **kwargs)
 
+    def save(self, docs, **kwargs):
+        return self.collection.save(docs, **kwargs)
+
     def update(self, spec, doc, **kwargs):
         if doc.get('$set'):
             return self.collection.update(spec, doc, **kwargs)

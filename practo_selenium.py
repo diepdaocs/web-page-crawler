@@ -61,12 +61,20 @@ class PractoCrawl():
         for detail in list_urls:
             url_detail = re.search('href="(.+?)"', detail.get_attribute('innerHTML'))
             if url_detail:
+                url = url_detail.group(1)
                 data = {'location': location,
                         'subject': subject,
-                        'url': url_detail.group(1)}
-                self.mongo.insert(data)
+                        'url': url,
+                        '_id': url}
+                self.mongo.save(data)
 
-        paginator = self.driver.find_element_by_xpath('//div[@class="paginator"]').get_attribute('innerHTML')
+        while True:
+            try:
+                paginator = self.driver.find_element_by_xpath('//div[@class="paginator"]').get_attribute('innerHTML')
+                break
+            except:
+                time.sleep(1)
+
         if 'page_link page_link_next' in paginator:
             next_url = re.search('(.+=)[0-9]+$', input_url).group(1)
             next_url = next_url + str(int(input_url[len(next_url):]) + 1)
