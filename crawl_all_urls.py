@@ -1,6 +1,7 @@
 import requests
 from pymongo import MongoClient
 from bs4 import BeautifulSoup
+from collections import OrderedDict
 
 locations = ['bangalore', 'delhi', 'kolkata', 'pune', 'chennai', 'hyderabad', 'mumbai', 'agra', 'ahmedabad',
              'allahabad', 'aurangabad', 'bhopal', 'chandigarh', 'coimbatore', 'ernakulam', 'faridabad', 'ghaziabad',
@@ -9,55 +10,55 @@ locations = ['bangalore', 'delhi', 'kolkata', 'pune', 'chennai', 'hyderabad', 'm
              'vadodara', 'varanasi', 'vijayawada', 'visakhapatnam', 'singapore', 'batangas', 'metro-manila', 'jakarta',
              'kuala-lumpur']
 
-index_urls = {
+index_urls = OrderedDict({
     'doctor': [
-        'https://www.practo.com/%s/dentist?page=%',
-        'https://www.practo.com/%s/ophthalmologist?page=%',
-        'https://www.practo.com/%s/dermatologist-cosmetologist?page=%',
-        'https://www.practo.com/%s/homeopath?page=%',
-        'https://www.practo.com/%s/ayurveda?page=%',
-        'https://www.practo.com/%s/cardiologist?page=%',
-        'https://www.practo.com/%s/gastroenterologist?page=%',
-        'https://www.practo.com/%s/psychiatrist?page=%',
-        'https://www.practo.com/%s/ear-nose-throat-ENT-specialist?page=%',
-        'https://www.practo.com/%s/gynecologist-obstetrician?page=%',
-        'https://www.practo.com/%s/neurologist?page=%',
-        'https://www.practo.com/%s/urologist?page=%'
+        'https://www.practo.com/%s/dentist?page=%s',
+        'https://www.practo.com/%s/ophthalmologist?page=%s',
+        'https://www.practo.com/%s/dermatologist-cosmetologist?page=%s',
+        'https://www.practo.com/%s/homeopath?page=%s',
+        'https://www.practo.com/%s/ayurveda?page=%s',
+        'https://www.practo.com/%s/cardiologist?page=%s',
+        'https://www.practo.com/%s/gastroenterologist?page=%s',
+        'https://www.practo.com/%s/psychiatrist?page=%s',
+        'https://www.practo.com/%s/ear-nose-throat-ENT-specialist?page=%s',
+        'https://www.practo.com/%s/gynecologist-obstetrician?page=%s',
+        'https://www.practo.com/%s/neurologist?page=%s',
+        'https://www.practo.com/%s/urologist?page=%s'
     ],
     'diagnostic_lab': [
-        'https://www.practo.com/%s/diagnostics/tests?page=%',
-        'https://www.practo.com/%s/diagnostics/thyroid-profile?page=%',
-        'https://www.practo.com/%s/diagnostics/lipid-profile?page=%',
-        'https://www.practo.com/%s/diagnostics/complete-blood-count?page=%',
-        'https://www.practo.com/%s/diagnostics/x-ray?page=%',
-        'https://www.practo.com/%s/diagnostics/hiv-1-2?page=%',
-        'https://www.practo.com/%s/diagnostics/pregnancy-test?page=%',
-        'https://www.practo.com/%s/diagnostics/urine-culture-and-sensitivity?page=%',
-        'https://www.practo.com/%s/diagnostics/stool-routine?page=%',
-        'https://www.practo.com/%s/diagnostics/ct-scan?page=%',
-        'https://www.practo.com/%s/diagnostics/semen-analysis?page=%',
-        'https://www.practo.com/%s/diagnostics/mri-scan?page=%'
+        'https://www.practo.com/%s/diagnostics/tests?page=%s',
+        'https://www.practo.com/%s/diagnostics/thyroid-profile?page=%s',
+        'https://www.practo.com/%s/diagnostics/lipid-profile?page=%s',
+        'https://www.practo.com/%s/diagnostics/complete-blood-count?page=%s',
+        'https://www.practo.com/%s/diagnostics/x-ray?page=%s',
+        'https://www.practo.com/%s/diagnostics/hiv-1-2?page=%s',
+        'https://www.practo.com/%s/diagnostics/pregnancy-test?page=%s',
+        'https://www.practo.com/%s/diagnostics/urine-culture-and-sensitivity?page=%s',
+        'https://www.practo.com/%s/diagnostics/stool-routine?page=%s',
+        'https://www.practo.com/%s/diagnostics/ct-scan?page=%s',
+        'https://www.practo.com/%s/diagnostics/semen-analysis?page=%s',
+        'https://www.practo.com/%s/diagnostics/mri-scan?page=%s'
     ],
     'spa_and_salon': [
-        'https://www.practo.com/%s/wellness-centers/spas?page=%',
-        'https://www.practo.com/%s/wellness-centers/hair-cut-for-men?page=%',
-        'https://www.practo.com/%s/wellness-centers/hair-cut-for-women?page=%',
-        'https://www.practo.com/%s/wellness-centers/waxing?page=%',
-        'https://www.practo.com/%s/wellness-centers/shaving?page=%',
-        'https://www.practo.com/%s/wellness-centers/body-massage?page=%',
-        'https://www.practo.com/%s/wellness-centers/facial?page=%',
-        'https://www.practo.com/%s/wellness-centers/manicure?page=%',
-        'https://www.practo.com/%s/wellness-centers/pedicure?page=%',
-        'https://www.practo.com/%s/wellness-centers/threading?page=%',
-        'https://www.practo.com/%s/wellness-centers/bleaching?page=%',
-        'https://www.practo.com/%s/wellness-centers/make-up?page=%'
+        'https://www.practo.com/%s/wellness-centers/spas?page=%s',
+        'https://www.practo.com/%s/wellness-centers/hair-cut-for-men?page=%s',
+        'https://www.practo.com/%s/wellness-centers/hair-cut-for-women?page=%s',
+        'https://www.practo.com/%s/wellness-centers/waxing?page=%s',
+        'https://www.practo.com/%s/wellness-centers/shaving?page=%s',
+        'https://www.practo.com/%s/wellness-centers/body-massage?page=%s',
+        'https://www.practo.com/%s/wellness-centers/facial?page=%s',
+        'https://www.practo.com/%s/wellness-centers/manicure?page=%s',
+        'https://www.practo.com/%s/wellness-centers/pedicure?page=%s',
+        'https://www.practo.com/%s/wellness-centers/threading?page=%s',
+        'https://www.practo.com/%s/wellness-centers/bleaching?page=%s',
+        'https://www.practo.com/%s/wellness-centers/make-up?page=%s'
 
     ],
     'fitness': [
-        'https://www.practo.com/%s/fitness-centers/gyms'
+        'https://www.practo.com/%s/fitness-centers/gyms?page=%s'
     ]
 
-}
+})
 
 mg_client = MongoClient()
 collection = mg_client.practo.all_urls
@@ -68,7 +69,7 @@ def crawl_url(url, location, category):
     try:
         if response.status_code == requests.codes.ok:
             text = response.text
-            page = BeautifulSoup(text, 'html_parser')
+            page = BeautifulSoup(text, 'html.parser')
             links = page.find_all('a', {'class': 'doc-name'})
             for link in links:
                 collection.save({
@@ -78,7 +79,7 @@ def crawl_url(url, location, category):
                 })
             return True
     except Exception as ex:
-        print 'Somthing errors %s' % ex
+        print 'Something errors %s' % ex
         return True
 
     return False
@@ -87,12 +88,14 @@ def crawl_url(url, location, category):
 def main():
     for loc in locations:
         for category, main_urls in index_urls.items():
-            print 'Crawl category %s' % category
+            print 'Crawl category: %s' % category
+            print main_urls
             for url in main_urls:
+                print 'Main url: %s' % url
                 for page_num in range(1, 1000000):
-                    url = url % (loc, page_num)
-                    print 'Crawling url %s' % url
-                    if not crawl_url(url, loc, category):
+                    c_url = url % (loc, page_num)
+                    print 'Crawling url: %s' % c_url
+                    if not crawl_url(c_url, loc, category):
                         break
 
     return
