@@ -14,21 +14,26 @@ class PractoCrawl():
         self.mongo = Mongodb(host='localhost', db='practo', col='url')
 
     def start(self):
-        index_urls = ['https://www.practo.com/bangalore/dentist?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/ophthalmologist?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/dermatologist-cosmetologist?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/homeopath?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/ayurveda?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/cardiologist?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/gastroenterologist?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/psychiatrist?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/ear-nose-throat-ENT-specialist?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/gynecologist-obstetrician?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/neurologist?filters[min_fee]=0&filters[max_fee]=1500&page=1',
-                    'https://www.practo.com/bangalore/urologist?filters[min_fee]=0&filters[max_fee]=1500&page=1']
+        index_urls = ['https://www.practo.com/bangalore/dentist?page=1',
+                    'https://www.practo.com/bangalore/ophthalmologist?page=1',
+                    'https://www.practo.com/bangalore/dermatologist-cosmetologist?page=1',
+                    'https://www.practo.com/bangalore/homeopath?page=1',
+                    'https://www.practo.com/bangalore/ayurveda?page=1',
+                    'https://www.practo.com/bangalore/cardiologist?page=1',
+                    'https://www.practo.com/bangalore/gastroenterologist?page=1',
+                    'https://www.practo.com/bangalore/psychiatrist?page=1',
+                    'https://www.practo.com/bangalore/ear-nose-throat-ENT-specialist?page=1',
+                    'https://www.practo.com/bangalore/gynecologist-obstetrician?page=1',
+                    'https://www.practo.com/bangalore/neurologist?page=1',
+                    'https://www.practo.com/bangalore/urologist?page=1']
 
         for url in index_urls:
-            locations = ['bangalore', 'delhi']
+            locations = ['bangalore', 'delhi', 'kolkata', 'pune', 'chennai', 'hyderabad', 'mumbai',
+                         'Agra', 'Ahmedabad', 'Allahabad', 'Aurangabad', 'Bhopal', 'Chandigarh', 'Coimbatore', 'Ernakulam', 'Faridabad', 'Ghaziabad', 'Gurgaon', 'Indore', 'Jaipur', 'Jodhpur', 'Lucknow', 'Ludhiana', 'Meerut', 'Mohali', 'Nagpur', 'Nashik', 'Navi', 'Noida', 'Panchkula', 'Patna', 'Puducherry', 'Raipur', 'Surat', 'Thane', 'Thiruvananthapuram', 'Vadodara', 'Varanasi', 'Vijayawada', 'Visakhapatnam',
+                         'singapore',
+                         'batangas', 'metro-manila',
+                         'jakarta',
+                         'kuala-lumpur']
             for l in locations:
                 self.crawl_url(url.replace(locations[0], l), l, re.search('practo\.com/.+/(.+)\?', url).group(1))
 
