@@ -48,7 +48,7 @@ class PractoCrawl():
         if 'page_link page_link_next' in paginator:
             next_url = re.search('(.+=)[0-9]+$', input_url).group(1)
             next_url = next_url + str(int(input_url[len(next_url):]) + 1)
-            # self.crawl_url(next_url, location, subject)
+            self.crawl_url(next_url, location, subject)
 
     def close(self):
         self.driver.close()
