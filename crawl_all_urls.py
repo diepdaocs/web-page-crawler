@@ -79,7 +79,7 @@ def crawl_url(url, location, category):
                     '_id': link['href'],
                     'loc': location,
                     'cat': category
-                })
+                                   })
             return True
     except Exception as ex:
         print 'Something errors %s' % ex
